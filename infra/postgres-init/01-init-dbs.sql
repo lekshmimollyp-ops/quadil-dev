@@ -1,7 +1,0 @@
-CREATE DATABASE db_identity;
-CREATE DATABASE db_tenant;
-CREATE DATABASE db_pricing;
-CREATE DATABASE db_oms;
-CREATE DATABASE db_partner;
-CREATE DATABASE db_billing;
-CREATE DATABASE db_pod;
