@@ -1,16 +1,9 @@
 version: '3.8'
 
+# Template anchor (kept for build/depends_on, but env vars MUST be explicit to avoid overwrite issues)
 x-laravel-service: &laravel-service
   build:
     dockerfile: ../docker/laravel.dockerfile
-  environment:
-    DB_CONNECTION: pgsql
-    DB_HOST: postgres
-    DB_PORT: 5432
-    DB_USERNAME: postgres
-    DB_PASSWORD: password
-    REDIS_HOST: redis
-    REDIS_PORT: 6379
   depends_on:
     - postgres
     - redis
@@ -79,7 +72,7 @@ services:
       - redis
       - api-gateway
 
-  # --- Microservices ---
+  # --- Microservices (Explicit Config for All) ---
   auth-service:
     <<: *laravel-service
     build:
@@ -93,7 +86,6 @@ services:
       DB_PASSWORD: password
       REDIS_HOST: redis
       DB_DATABASE: db_identity
-      # Add other specific ENV if needed
     ports:
       - "8001:8000"
 
@@ -103,6 +95,12 @@ services:
       context: ./tenant-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_tenant
     ports:
       - "8002:8000"
@@ -113,6 +111,12 @@ services:
       context: ./geo-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_geo
     ports:
       - "8003:8000"
@@ -123,6 +127,12 @@ services:
       context: ./order-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_oms
     ports:
       - "8004:8000"
@@ -133,6 +143,12 @@ services:
       context: ./pricing-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_pricing
     ports:
       - "8005:8000"
@@ -143,6 +159,12 @@ services:
       context: ./dispatch-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_dispatch
     ports:
       - "8006:8000"
@@ -153,6 +175,12 @@ services:
       context: ./tracking-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_tracking
     ports:
       - "8007:8000"
@@ -163,6 +191,12 @@ services:
       context: ./agent-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_agent
     ports:
       - "8008:8000"
@@ -173,6 +207,12 @@ services:
       context: ./pod-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_pod
     ports:
       - "8009:8000"
@@ -183,6 +223,12 @@ services:
       context: ./wallet-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_wallet
     ports:
       - "8010:8000"
@@ -193,6 +239,12 @@ services:
       context: ./accounting-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_accounting
     ports:
       - "8011:8000"
@@ -203,6 +255,12 @@ services:
       context: ./notification-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_notify
     ports:
       - "8012:8000"
@@ -213,6 +271,12 @@ services:
       context: ./analytics-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_analytics
     ports:
       - "8013:8000"
@@ -223,6 +287,12 @@ services:
       context: ./webhook-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_webhook
     ports:
       - "8014:8000"
