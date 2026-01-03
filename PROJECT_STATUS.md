@@ -794,7 +794,8 @@ QUDIL is built on a **domain-driven microservices architecture** with 14 indepen
 2. **DISPATCH_GOVERNANCE_TESTING_GUIDE.md** - Agent management test cases
 3. **MERCHANT_HIERARCHIES_TESTING_GUIDE.md** - Merchant test cases
 4. **PROJECT_STATUS.md** - This document
-5. **task.md** - Development task tracking
+5. **deployment_plan.md** - AWS Demo Deployment Guide (New)
+6. **task.md** - Development task tracking
 
 ---
 
