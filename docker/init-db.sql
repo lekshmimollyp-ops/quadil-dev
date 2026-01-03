@@ -12,3 +12,4 @@ CREATE DATABASE db_accounting;
 CREATE DATABASE db_notify;
 CREATE DATABASE db_analytics;
 CREATE DATABASE db_webhook;
+CREATE DATABASE admin_web;
