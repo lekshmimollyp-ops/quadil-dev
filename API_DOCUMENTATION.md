@@ -2,7 +2,7 @@
 
 This document provides Postman-style request and response formats for **all 14 microservices** in the QUDIL ecosystem.
 
-**🌐 Unified Gateway URL (via Ngrok):** `https://preprostatic-sulfureous-randolph.ngrok-free.dev`
+**🌐 Unified Gateway URL:** `http://<AWS_PUBLIC_IP>:8000`
 > [!IMPORTANT]
 > All services are now accessible via this single URL. Each service corresponds to a specific path prefix.
 
@@ -96,6 +96,18 @@ Access via: `{{GATEWAY_URL}}/order/api/v1/...`
 { "order_id": "f47ac10b...", "status": "pending" }
 ```
 
+### [GET] List Orders (Merchant)
+`GET /order/api/v1/orders`
+**Response (200):**
+```json
+{
+    "current_page": 1,
+    "data": [
+        { "id": "f47ac10b...", "status": "pending", "total_amount": 150.00 }
+    ]
+}
+```
+
 ---
 
 ## 💰 5. Pricing Service
@@ -126,6 +138,36 @@ Access via: `{{GATEWAY_URL}}/dispatch/api/v1/...`
 **Response (200):**
 ```json
 { "message": "Driver assigned", "assignment_id": 12 }
+```
+
+### [GET] Job Marketplace (Driver)
+`GET /dispatch/api/v1/jobs?driver_id=...`
+**Response (200):**
+```json
+[
+    { "id": 12, "order_id": "f47ac10b...", "status": "assigned" }
+]
+```
+
+### [POST] Accept Job
+`POST /dispatch/api/v1/jobs/{id}/accept`
+**Response (200):**
+```json
+{ "message": "Job accepted", "status": "accepted" }
+```
+
+### [POST] Confirm Pickup
+`POST /dispatch/api/v1/jobs/{id}/pickup`
+**Response (200):**
+```json
+{ "message": "Job picked up", "status": "picked_up" }
+```
+
+### [POST] Complete Delivery
+`POST /dispatch/api/v1/jobs/{id}/deliver`
+**Response (200):**
+```json
+{ "message": "Job completed", "status": "delivered" }
 ```
 
 ---

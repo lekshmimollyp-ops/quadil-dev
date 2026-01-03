@@ -75,12 +75,62 @@ class DispatchController extends Controller
         ]);
     }
 
-    /**
-     * Get online drivers
-     */
     public function getOnlineDrivers()
     {
         $drivers = Driver::where('status', 'online')->get();
         return response()->json($drivers);
+    }
+
+    // --- Driver Workflow Endpoints ---
+
+    /**
+     * Get available jobs for a driver
+     */
+    public function getAvailableJobs(Request $request)
+    {
+        // For simple demo, return assignments in 'assigned' state for this driver
+        // In real marketplace, this would query unassigned orders in driver's zone.
+        $driverId = $request->query('driver_id'); 
+        
+        $jobs = Assignment::where('driver_id', $driverId)
+            ->whereIn('status', ['assigned', 'picked_up'])
+            ->get();
+            
+        return response()->json($jobs);
+    }
+
+    /**
+     * Driver accepts/confirms a job
+     */
+    public function acceptJob($id)
+    {
+        $assignment = Assignment::findOrFail($id);
+        $assignment->update(['status' => 'accepted']);
+        return response()->json(['message' => 'Job accepted', 'status' => 'accepted']);
+    }
+
+    /**
+     * Driver picks up current job
+     */
+    public function pickupJob($id)
+    {
+        $assignment = Assignment::findOrFail($id);
+        $assignment->update(['status' => 'picked_up']);
+        // Ideally emit event to OrderService to update Order status
+        return response()->json(['message' => 'Job picked up', 'status' => 'picked_up']);
+    }
+
+    /**
+     * Driver completes/delivers job
+     */
+    public function completeJob($id)
+    {
+        $assignment = Assignment::findOrFail($id);
+        $assignment->update(['status' => 'delivered']);
+        
+        // Free up the driver
+        Driver::where('id', $assignment->driver_id)->update(['status' => 'online']);
+
+        return response()->json(['message' => 'Job completed', 'status' => 'delivered']);
     }
 }
