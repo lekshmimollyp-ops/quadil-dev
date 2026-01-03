@@ -2,8 +2,8 @@
 FROM node:20 as frontend
 WORKDIR /app
 COPY package*.json ./
-# Clean install ensuring strict version matching
-RUN npm ci
+# Clean install ensuring strict version matching (ignoring peer dep conflicts for Vite 7)
+RUN npm ci --legacy-peer-deps
 COPY . .
 RUN npm run build
 
