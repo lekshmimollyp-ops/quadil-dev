@@ -9,10 +9,20 @@ use Inertia\Response;
 
 class DashboardController extends Controller
 {
+    protected $baseUrl;
+
+    public function __construct() {
+        // Assuming 'services.gateway.url' holds the base URL like 'http://127.0.0.1:8000'
+        // The instruction's snippet for the constructor was specific to analytics,
+        // but the overall goal is to replace the general base URL.
+        // We'll set the general gateway URL here.
+        $this->baseUrl = config('services.gateway.url', 'http://127.0.0.1:8000');
+    }
+
     public function index(Request $request): Response
     {
         $token = session('remote_token');
-        $baseUrl = 'http://127.0.0.1:8000';
+        // Original line: $baseUrl = 'http://127.0.0.1:8000'; - This is now handled by the class property $this->baseUrl
 
         // Fetch metrics from microservices
         $metrics = [

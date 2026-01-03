@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
-    protected $orderBaseUrl = 'http://127.0.0.1:8000/order/api/v1';
+    protected $baseUrl;
+
+    public function __construct() {
+        $this->baseUrl = config('services.gateway.url') . '/order/api/v1';
+    }
     protected $dispatchBaseUrl = 'http://127.0.0.1:8000/dispatch/api/v1';
 
     /**

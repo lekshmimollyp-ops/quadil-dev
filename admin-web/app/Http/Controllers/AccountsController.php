@@ -9,8 +9,13 @@ use Inertia\Response;
 
 class AccountsController extends Controller
 {
-    protected $baseUrl = 'http://127.0.0.1:8000/accounting/api/v1';
-    protected $tenantBaseUrl = 'http://127.0.0.1:8000/tenant/api/v1';
+    protected $baseUrl;
+    protected $tenantBaseUrl;
+
+    public function __construct() {
+        $this->baseUrl = config('services.gateway.url') . '/accounting/api/v1';
+        $this->tenantBaseUrl = config('services.gateway.url') . '/tenant/api/v1';
+    }
 
     /**
      * Display the financial ledger overview.

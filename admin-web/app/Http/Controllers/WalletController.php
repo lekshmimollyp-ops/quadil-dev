@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class WalletController extends Controller
 {
-    protected $baseUrl = 'http://127.0.0.1:8000/wallet/api/v1';
+    protected $baseUrl;
+
+    public function __construct() {
+        $this->baseUrl = config('services.gateway.url') . '/wallet/api/v1';
+    }
     protected $tenantBaseUrl = 'http://127.0.0.1:8000/tenant/api/v1';
 
     /**

@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class GeoController extends Controller
 {
-    protected $baseUrl = 'http://127.0.0.1:8000/geo/api/v1';
+    protected $baseUrl;
+
+    public function __construct() {
+        $this->baseUrl = config('services.gateway.url') . '/geo/api/v1';
+    }
 
     /**
      * Display masters (Countries & States)

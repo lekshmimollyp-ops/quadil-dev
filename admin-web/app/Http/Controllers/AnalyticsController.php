@@ -9,7 +9,11 @@ use Inertia\Response;
 
 class AnalyticsController extends Controller
 {
-    protected $baseUrl = 'http://127.0.0.1:8000/analytics/api/v1';
+    protected $baseUrl;
+
+    public function __construct() {
+        $this->baseUrl = config('services.gateway.url') . '/analytics/api/v1';
+    }
 
     /**
      * Display the analytics dashboard.
