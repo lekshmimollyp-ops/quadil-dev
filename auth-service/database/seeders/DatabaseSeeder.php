@@ -17,17 +17,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => bcrypt('password'),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@qudil.com',
-            'password' => bcrypt('admin123'),
-            'role' => 'admin', // assuming role column exists, or just basic user for now
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@qudil.com'],
+            [
+                'name' => 'Admin User',
+                'password' => bcrypt('admin123'),
+                'role' => 'admin',
+            ]
+        );
     }
 }
