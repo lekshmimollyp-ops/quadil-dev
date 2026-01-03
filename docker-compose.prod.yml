@@ -86,6 +86,12 @@ services:
       context: ./auth-service
       dockerfile: ../docker/laravel.dockerfile
     environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
       DB_DATABASE: db_identity
       # Add other specific ENV if needed
     ports:

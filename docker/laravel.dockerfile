@@ -28,8 +28,8 @@ ARG SERVICE_NAME
 # 1. Copy composer dependencies first for caching
 COPY composer.json composer.lock ./
 
-# 2. Install dependencies (no scripts yet to avoid errors if code missing)
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+# 2. Install dependencies (include dev deps for Faker/Seeding in demo)
+RUN composer install --no-scripts --no-autoloader --prefer-dist
 
 # 3. Copy application code
 COPY . .
