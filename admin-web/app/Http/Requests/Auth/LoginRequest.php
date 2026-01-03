@@ -42,7 +42,7 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         try {
-            $response = \Illuminate\Support\Facades\Http::post('http://127.0.0.1:8000/auth/api/v1/login', [
+            $response = \Illuminate\Support\Facades\Http::post(config('services.gateway.url') . '/auth/api/v1/login', [
                 'email' => $this->email,
                 'password' => $this->password,
             ]);
