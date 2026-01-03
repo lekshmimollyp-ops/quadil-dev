@@ -36,21 +36,21 @@ class DashboardController extends Controller
             $client = Http::withToken($token)->timeout(2)->connectTimeout(1);
 
             // Get Total Orders
-            $orderRes = $client->get("$baseUrl/order/api/v1/orders/summary");
+            $orderRes = $client->get("{$this->baseUrl}/order/api/v1/orders/summary");
             if ($orderRes->successful()) {
                 $metrics['total_orders']['value'] = $orderRes->json('total_count', '1,284');
                 $metrics['total_orders']['change'] = $orderRes->json('change', '+12.5%');
             }
 
             // Get Revenue
-            $revenueRes = $client->get("$baseUrl/analytics/api/v1/revenue/today");
+            $revenueRes = $client->get("{$this->baseUrl}/analytics/api/v1/revenue/today");
             if ($revenueRes->successful()) {
                 $metrics['today_revenue']['value'] = '$' . number_format($revenueRes->json('amount', 4850));
                 $metrics['today_revenue']['change'] = $revenueRes->json('change', '+8.2%');
             }
 
             // Get Merchant Count
-            $merchantRes = $client->get("$baseUrl/auth/api/v1/users/count?type=merchant");
+            $merchantRes = $client->get("{$this->baseUrl}/auth/api/v1/users/count?type=merchant");
             if ($merchantRes->successful()) {
                 $metrics['active_merchants']['value'] = $merchantRes->json('count', '156');
             }
