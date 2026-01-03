@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class PricingRule extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $keyType = 'string';
     public $incrementing = false;
@@ -28,14 +28,4 @@ class PricingRule extends Model
         'per_kg_rate' => 'decimal:2',
         'is_active' => 'boolean',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
-            }
-        });
-    }
 }
