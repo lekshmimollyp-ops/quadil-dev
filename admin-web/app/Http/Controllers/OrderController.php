@@ -12,10 +12,12 @@ class OrderController extends Controller
 {
     protected $baseUrl;
 
+    protected $dispatchBaseUrl;
+    
     public function __construct() {
         $this->baseUrl = config('services.gateway.url') . '/order/api/v1';
+        $this->dispatchBaseUrl = config('services.gateway.url') . '/dispatch/api/v1';
     }
-    protected $dispatchBaseUrl = 'http://127.0.0.1:8000/dispatch/api/v1';
 
     /**
      * Display a listing of orders.
@@ -26,7 +28,13 @@ class OrderController extends Controller
         
         try {
             $response = Http::withToken($token)->timeout(5)
-                ->get("{$this->orderBaseUrl}/orders");
+                ->get("{$this->baseUrl}/orders");
+
+            \Log::info('DEBUG ORDERS: URL=' . "{$this->baseUrl}/orders");
+            \Log::info('DEBUG ORDERS: STATUS=' . $response->status());
+            if (!$response->successful()) {
+                \Log::error('DEBUG ORDERS: ERROR BODY=' . $response->body());
+            }
 
             $orders = $response->successful() ? $response->json() : ['data' => []];
         } catch (\Exception $e) {
@@ -49,7 +57,7 @@ class OrderController extends Controller
         try {
             // Get Order Details
             $orderRes = Http::withToken($token)->timeout(5)
-                ->get("{$this->orderBaseUrl}/orders/{$id}");
+                ->get("{$this->baseUrl}/orders/{$id}");
             $order = $orderRes->successful() ? $orderRes->json() : null;
 
             // Get Online Drivers for assignment

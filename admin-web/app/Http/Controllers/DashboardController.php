@@ -70,7 +70,7 @@ class DashboardController extends Controller
     {
         try {
             $response = Http::withToken($token)->timeout(2)->connectTimeout(1)
-                ->get('http://127.0.0.1:8000/order/api/v1/orders/recent');
+                ->get(config('services.gateway.url') . '/order/api/v1/orders/recent');
             if ($response->successful()) {
                 return $response->json('data', []);
             }

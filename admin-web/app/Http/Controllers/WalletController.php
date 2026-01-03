@@ -12,10 +12,12 @@ class WalletController extends Controller
 {
     protected $baseUrl;
 
+    protected $tenantBaseUrl;
+    
     public function __construct() {
         $this->baseUrl = config('services.gateway.url') . '/wallet/api/v1';
+        $this->tenantBaseUrl = config('services.gateway.url') . '/tenant/api/v1';
     }
-    protected $tenantBaseUrl = 'http://127.0.0.1:8000/tenant/api/v1';
 
     /**
      * Display a listing of merchant wallets.

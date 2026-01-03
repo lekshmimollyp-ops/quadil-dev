@@ -29,7 +29,7 @@ class AgentController extends Controller
             $agents = $response->successful() ? $response->json() : [];
 
             // Fetch merchants for association modal
-            $tenantBaseUrl = 'http://127.0.0.1:8000/tenant/api/v1';
+            $tenantBaseUrl = config('services.gateway.url') . '/tenant/api/v1';
             $merchantsRes = Http::withToken($token)->timeout(5)
                 ->get("{$tenantBaseUrl}/tenants");
             $merchants = $merchantsRes->successful() ? $merchantsRes->json() : [];
@@ -129,7 +129,7 @@ class AgentController extends Controller
         ]);
 
         $token = session('remote_token');
-        $tenantBaseUrl = 'http://127.0.0.1:8000/tenant/api/v1';
+        $tenantBaseUrl = config('services.gateway.url') . '/tenant/api/v1';
 
         $response = Http::withToken($token)->timeout(5)
             ->post("{$tenantBaseUrl}/tenants/associate-freelancer", $request->all());
@@ -152,7 +152,7 @@ class AgentController extends Controller
         ]);
 
         $token = session('remote_token');
-        $tenantBaseUrl = 'http://127.0.0.1:8000/tenant/api/v1';
+        $tenantBaseUrl = config('services.gateway.url') . '/tenant/api/v1';
 
         // Use POST since we're sending data in the body
         $response = Http::withToken($token)->timeout(5)
