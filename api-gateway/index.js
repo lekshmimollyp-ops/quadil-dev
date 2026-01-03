@@ -8,20 +8,20 @@ app.use(cors());
 
 // Service Mappings
 const services = {
-    '/auth': 'http://127.0.0.1:8001',
-    '/tenant': 'http://127.0.0.1:8002',
-    '/geo': 'http://127.0.0.1:8003',
-    '/order': 'http://127.0.0.1:8004',
-    '/pricing': 'http://127.0.0.1:8005',
-    '/dispatch': 'http://127.0.0.1:8006',
-    '/tracking': 'http://127.0.0.1:8007',
-    '/agent': 'http://127.0.0.1:8008',
-    '/wallet': 'http://127.0.0.1:8010',
-    '/pod': 'http://127.0.0.1:8015',
-    '/notification': 'http://127.0.0.1:8011',
-    '/accounting': 'http://127.0.0.1:8010',
-    '/analytics': 'http://127.0.0.1:8013',
-    '/webhook': 'http://127.0.0.1:8014',
+    '/auth': process.env.AUTH_SERVICE_URL || 'http://127.0.0.1:8001',
+    '/tenant': process.env.TENANT_SERVICE_URL || 'http://127.0.0.1:8002',
+    '/geo': process.env.GEO_SERVICE_URL || 'http://127.0.0.1:8003',
+    '/order': process.env.ORDER_SERVICE_URL || 'http://127.0.0.1:8004',
+    '/pricing': process.env.PRICING_SERVICE_URL || 'http://127.0.0.1:8005',
+    '/dispatch': process.env.DISPATCH_SERVICE_URL || 'http://127.0.0.1:8006',
+    '/tracking': process.env.TRACKING_SERVICE_URL || 'http://127.0.0.1:8007',
+    '/agent': process.env.AGENT_SERVICE_URL || 'http://127.0.0.1:8008',
+    '/wallet': process.env.WALLET_SERVICE_URL || 'http://127.0.0.1:8010',
+    '/pod': process.env.POD_SERVICE_URL || 'http://127.0.0.1:8015',
+    '/notification': process.env.NOTIFICATION_SERVICE_URL || 'http://127.0.0.1:8011',
+    '/accounting': process.env.ACCOUNTING_SERVICE_URL || 'http://127.0.0.1:8010',
+    '/analytics': process.env.ANALYTICS_SERVICE_URL || 'http://127.0.0.1:8013',
+    '/webhook': process.env.WEBHOOK_SERVICE_URL || 'http://127.0.0.1:8014',
 };
 
 // Apply proxies
