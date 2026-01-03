@@ -25,7 +25,7 @@ WORKDIR /var/www
 COPY . .
 
 # 1. Install PHP Dependencies FIRST (This creates 'vendor/tightenco/ziggy' which frontend needs)
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+RUN composer install --no-scripts --no-autoloader --prefer-dist
 RUN composer dump-autoload --optimize
 
 # Fix permissions
