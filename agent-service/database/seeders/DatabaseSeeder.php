@@ -18,5 +18,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AgentDataSeeder::class,
         ]);
+
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => bcrypt('password'),
+            ]
+        );
     }
 }

@@ -18,5 +18,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MerchantDataSeeder::class,
         ]);
+
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => bcrypt('password'),
+            ]
+        );
     }
 }
