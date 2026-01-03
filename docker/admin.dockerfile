@@ -1,8 +1,9 @@
 # Stage 1: Build Frontend Assets
-FROM node:20-alpine as frontend
+FROM node:20 as frontend
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+# Clean install ensuring strict version matching
+RUN npm ci
 COPY . .
 RUN npm run build
 
