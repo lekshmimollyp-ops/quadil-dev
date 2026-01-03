@@ -1,0 +1,222 @@
+version: '3.8'
+
+x-laravel-service: &laravel-service
+  build:
+    dockerfile: ../docker/laravel.dockerfile
+  environment:
+    DB_CONNECTION: pgsql
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_USERNAME: postgres
+    DB_PASSWORD: password
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+  depends_on:
+    - postgres
+    - redis
+
+services:
+  # --- Infrastructure ---
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # --- API Gateway ---
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: ../docker/gateway.dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:8000
+      TENANT_SERVICE_URL: http://tenant-service:8000
+      GEO_SERVICE_URL: http://geo-service:8000
+      ORDER_SERVICE_URL: http://order-service:8000
+      PRICING_SERVICE_URL: http://pricing-service:8000
+      DISPATCH_SERVICE_URL: http://dispatch-service:8000
+      TRACKING_SERVICE_URL: http://tracking-service:8000
+      AGENT_SERVICE_URL: http://agent-service:8000
+      POD_SERVICE_URL: http://pod-service:8000
+      WALLET_SERVICE_URL: http://wallet-service:8000
+      ACCOUNTING_SERVICE_URL: http://accounting-service:8000
+      NOTIFICATION_SERVICE_URL: http://notification-service:8000
+      ANALYTICS_SERVICE_URL: http://analytics-service:8000
+      WEBHOOK_SERVICE_URL: http://webhook-service:8000
+    depends_on:
+      - auth-service
+      - tenant-service
+
+  # --- Admin Web ---
+  admin-web:
+    build:
+      context: ./admin-web
+      dockerfile: ../docker/admin.dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: admin_web
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      REDIS_HOST: redis
+      API_GATEWAY_URL: http://api-gateway:8000
+    depends_on:
+      - postgres
+      - redis
+      - api-gateway
+
+  # --- Microservices ---
+  auth-service:
+    <<: *laravel-service
+    build:
+      context: ./auth-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_identity
+      # Add other specific ENV if needed
+    ports:
+      - "8001:8000"
+
+  tenant-service:
+    <<: *laravel-service
+    build:
+      context: ./tenant-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_tenant
+    ports:
+      - "8002:8000"
+
+  geo-service:
+    <<: *laravel-service
+    build:
+      context: ./geo-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_geo
+    ports:
+      - "8003:8000"
+
+  order-service:
+    <<: *laravel-service
+    build:
+      context: ./order-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_oms
+    ports:
+      - "8004:8000"
+
+  pricing-service:
+    <<: *laravel-service
+    build:
+      context: ./pricing-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_pricing
+    ports:
+      - "8005:8000"
+
+  dispatch-service:
+    <<: *laravel-service
+    build:
+      context: ./dispatch-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_dispatch
+    ports:
+      - "8006:8000"
+
+  tracking-service:
+    <<: *laravel-service
+    build:
+      context: ./tracking-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_tracking
+    ports:
+      - "8007:8000"
+
+  agent-service:
+    <<: *laravel-service
+    build:
+      context: ./agent-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_agent
+    ports:
+      - "8008:8000"
+
+  pod-service:
+    <<: *laravel-service
+    build:
+      context: ./pod-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_pod
+    ports:
+      - "8009:8000"
+
+  wallet-service:
+    <<: *laravel-service
+    build:
+      context: ./wallet-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_wallet
+    ports:
+      - "8010:8000"
+
+  accounting-service:
+    <<: *laravel-service
+    build:
+      context: ./accounting-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_accounting
+    ports:
+      - "8011:8000"
+
+  notification-service:
+    <<: *laravel-service
+    build:
+      context: ./notification-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_notify
+    ports:
+      - "8012:8000"
+
+  analytics-service:
+    <<: *laravel-service
+    build:
+      context: ./analytics-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_analytics
+    ports:
+      - "8013:8000"
+
+  webhook-service:
+    <<: *laravel-service
+    build:
+      context: ./webhook-service
+      dockerfile: ../docker/laravel.dockerfile
+    environment:
+      DB_DATABASE: db_webhook
+    ports:
+      - "8014:8000"

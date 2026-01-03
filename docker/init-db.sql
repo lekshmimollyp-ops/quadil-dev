@@ -1,0 +1,14 @@
+CREATE DATABASE db_identity;
+CREATE DATABASE db_tenant;
+CREATE DATABASE db_geo;
+CREATE DATABASE db_oms;
+CREATE DATABASE db_pricing;
+CREATE DATABASE db_dispatch;
+CREATE DATABASE db_tracking;
+CREATE DATABASE db_agent;
+CREATE DATABASE db_pod;
+CREATE DATABASE db_wallet;
+CREATE DATABASE db_accounting;
+CREATE DATABASE db_notify;
+CREATE DATABASE db_analytics;
+CREATE DATABASE db_webhook;
