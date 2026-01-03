@@ -28,7 +28,7 @@ class DashboardController extends Controller
         $metrics = [
             'total_orders' => ['value' => '0', 'change' => '0%', 'trend' => 'up'],
             'active_merchants' => ['value' => '0', 'change' => '0%', 'trend' => 'up'],
-            'agents_online' => ['value' => '0', 'change' => '0%', 'trend' => 'down'],
+            'agents_online' => ['value' => '0', 'change' => '0%', 'trend' => 'up'],
             'today_revenue' => ['value' => '$0', 'change' => '0%', 'trend' => 'up'],
         ];
 
@@ -49,10 +49,18 @@ class DashboardController extends Controller
                 $metrics['today_revenue']['change'] = $revenueRes->json('change', '+8.2%');
             }
 
-            // Get Merchant Count
-            $merchantRes = $client->get("{$this->baseUrl}/auth/api/v1/users/count?type=merchant");
+            // Get Merchant Count (From Tenant Service, not Auth)
+            $merchantRes = $client->get("{$this->baseUrl}/tenant/api/v1/tenants");
             if ($merchantRes->successful()) {
-                $metrics['active_merchants']['value'] = $merchantRes->json('count', '156');
+                $count = count($merchantRes->json());
+                $metrics['active_merchants']['value'] = (string) $count;
+            }
+
+            // Get Agents Online (From Dispatch Service)
+            $agentsRes = $client->get("{$this->baseUrl}/dispatch/api/v1/drivers/online");
+            if ($agentsRes->successful()) {
+                $count = count($agentsRes->json());
+                $metrics['agents_online']['value'] = (string) $count;
             }
 
         } catch (\Exception $e) {
